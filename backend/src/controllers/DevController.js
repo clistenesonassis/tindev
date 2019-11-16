@@ -3,7 +3,7 @@ const Dev = require('../models/dev');
 
 module.exports = {
     async index(req, res) {
-        const { user } = res.headers;
+        const { user } = req.headers;
         const loggedDev = await Dev.findById(user);
 
         const users = await Dev.find({
@@ -13,6 +13,8 @@ module.exports = {
                 { _id: { $nin: loggedDev.dislikes } },
             ]
         });
+
+        return res.json(users);
     },
 
     async store(req, res) {
